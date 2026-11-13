@@ -219,9 +219,21 @@ html[data-fs=s]{--rfs:15.5px}html[data-fs=l]{--rfs:19px}
 @media(hover:none){.top{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--bg) 94%,transparent)}.lc:hover img{transform:none}}
 @media(max-width:700px){.left{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);will-change:transform}}
 .lp{animation:beat 1.4s ease-out 1 both}
+
+/* ===== kapsuła na całą szerokość + safe-area ===== */
+.mid{padding-top:env(safe-area-inset-top,0px)}
+.top{padding-top:0;top:env(safe-area-inset-top,0px)}
+body:before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:6;pointer-events:none}
+#alrt{padding:8px 12px 6px}
+.alc{width:100%;padding:9px 12px 9px 14px;background:linear-gradient(90deg,color-mix(in srgb,var(--st) 24%,var(--sf)),var(--sf) 90%)}
+.alt{flex:1}
+.alc:after{content:"";flex:none;width:8px;height:8px;margin:0 4px 0 2px;border:solid var(--mu);border-width:0 2px 2px 0;transform:rotate(-45deg)}
+#alm2[hidden]{display:none}#alm2 .ald{width:12px;height:12px}
+/* lżejsze rozmycia na dotyku */
+@media(hover:none){.hs>*{backdrop-filter:none;-webkit-backdrop-filter:none}.fsr{backdrop-filter:none;-webkit-backdrop-filter:none;background:#000b}#rd,.rbar{backdrop-filter:none;-webkit-backdrop-filter:none}.rbar{background:var(--bg)}}
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://hn.algolia.com"><link rel="preconnect" href="https://api.rss2json.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript></head><body>
 <div id="ptr"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></div><div class="app"><aside class="left" id="nav"></aside>
-<main class="mid"><div class="top"><div id="alrt" hidden></div><div class="hr"><div class="ht"><h1 id="ttl"></h1><small id="sub" class="mu"></small></div><div class="hb"><button class="ib" data-a="so" aria-label="Szukaj"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg></button><button class="ib rf" data-a="ref" aria-label="Odśwież"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></button></div><div class="q2w" id="q2w"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q2" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"><button class="ib" data-a="sx" aria-label="Zamknij"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div class="tabs" id="tabs"></div></div><div id="cmp"></div><div id="feed"></div></main>
+<main class="mid"><div id="alrt" hidden></div><div class="top"><div class="hr"><div class="ht"><h1 id="ttl"></h1><small id="sub" class="mu"></small></div><div class="hb"><button class="ib" id="alm2" data-a="alo" hidden aria-label="Awaria Microsoft: pokaż szczegóły"><i class="ald"></i></button><button class="ib" data-a="so" aria-label="Szukaj"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg></button><button class="ib rf" data-a="ref" aria-label="Odśwież"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></button></div><div class="q2w" id="q2w"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q2" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"><button class="ib" data-a="sx" aria-label="Zamknij"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div class="tabs" id="tabs"></div></div><div id="cmp"></div><div id="feed"></div></main>
 <aside class="right"><input id="q" placeholder="Szukaj w Pulse" aria-label="Szukaj"><div class="box"><h2>Co się dzieje</h2><div id="trd"></div></div><div class="box"><h2>Źródła</h2><div id="src"></div></div><p class="mu" style="font-size:12px">Posty z polskich serwisów to fragmenty artykułów z ich kanałów RSS, a całość przeczytasz pod przyciskiem „Czytaj całość”.</p></aside></div>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -413,7 +425,7 @@ async function alCheck(){if(S.alert===false||(ALT&&Date.now()-ALT<9e4))return;AL
   if(!(st==='ok'&&now-all[0].at>12*36e5))A={s:st,at:all[0].at,k:'ms'+Math.floor(all[all.length-1].at/864e5),sg:all.slice(0,8),sv:ASV.filter(v=>all.some(x=>v[1].test(x.t+' '+(x.d||'')))).map(v=>v[0])}}
  AS=A;try{localStorage.setItem('pulse-al',JSON.stringify(A))}catch(e){}alRender();if(ALO)A?alFill():alClose()}
 const alVis=()=>S.alert!==false&&AS&&!(S.alDis&&S.alDis.k===AS.k&&S.alDis.s===AS.s);
-function alRender(){const e=$('#alrt');if(!e)return;let h='';if(alVis()){const m=AST[AS.s];h=`<button class="alc" data-a="alo" style="--st:${m.c}" aria-haspopup="dialog" aria-label="Z ostatniej chwili: Poważna awaria Microsoft. Stan: ${m.l}. Pokaż szczegóły"><i class="ald"></i><span class="alt"><b>Z ostatniej chwili!</b><span>Poważna awaria Microsoft</span></span><em>${m.l}</em></button>`}if(e._h!==h){e._h=h;e.innerHTML=h;e.hidden=!h}}
+function alRender(){const e=$('#alrt');if(!e)return;let h='';if(alVis()){const m=AST[AS.s];h=`<button class="alc" data-a="alo" style="--st:${m.c}" aria-haspopup="dialog" aria-label="Z ostatniej chwili: Poważna awaria Microsoft. Stan: ${m.l}. Pokaż szczegóły"><i class="ald"></i><span class="alt"><b>Z ostatniej chwili!</b><span>Poważna awaria Microsoft</span></span><em>${m.l}</em></button>`}if(e._h!==h){e._h=h;e.innerHTML=h;e.hidden=!h}alInd()}
 function alBody(){const m=AST[AS.s],ag=ago(AS.at);
  return`<div class="alg"><i></i></div><div class="alb"><div class="alm"><b>Z ostatniej chwili!</b><span class="mu">${ag==='teraz'?'przed chwilą':ag+' temu'}</span></div><h2 id="alh">Poważna awaria Microsoft</h2>
 <div class="alst" role="group" aria-label="Stan awarii">${['down','warn','ok'].map(k=>`<div class="${k===AS.s?'on':''}" style="--st:${AST[k].c}"${k===AS.s?' aria-current="true"':''}><i></i><span>${AST[k].l}</span></div>`).join('')}</div>
@@ -434,7 +446,8 @@ function alOpen(){if(!AS||ALO)return;let e=$('#al');if(!e){e=document.createElem
 function alClose(pop){if(!ALO)return;ALO=false;$('#al')?.classList.remove('open');if(!RO)document.documentElement.classList.remove('lock');if(!pop&&history.state?.al)history.back()}
 function alHide(){S.alDis={k:AS.k,s:AS.s};sv();alClose();alRender();toast('Kapsułka ukryta do zmiany stanu')}
 addEventListener('popstate',()=>{if(ALO&&!RO&&!history.state?.al)alClose(true)});
-function alInit(){if(AS&&Date.now()-AS.at>48*36e5)AS=null;alRender();if(pool.length)alCheck();setInterval(()=>{if(!document.hidden)alCheck()},18e4);document.addEventListener('visibilitychange',()=>{if(!document.hidden)alCheck()})}
+let ALV=true;const alInd=()=>{const b=$('#alm2');if(!b)return;const v=alVis()&&!ALV;b.hidden=!v;if(v)b.style.setProperty('--st',AST[AS.s].c)};
+function alInit(){if('IntersectionObserver'in window)new IntersectionObserver(es=>{ALV=es[0].isIntersecting;alInd()}).observe($('#alrt'));if(AS&&Date.now()-AS.at>48*36e5)AS=null;alRender();if(pool.length)alCheck();setInterval(()=>{if(!document.hidden)alCheck()},18e4);document.addEventListener('visibilitychange',()=>{if(!document.hidden)alCheck()})}
 
 /* ===== Czytnik ===== */
 let RO=false,RP=null;const FH={};
