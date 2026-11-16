@@ -706,6 +706,51 @@ body.chat-full .pc-logo svg,body.chat-full .pc-logo svg path{width:30px;height:3
 body.chat-full .pc-logo svg{filter:drop-shadow(0 3px 8px rgba(167,139,250,.4))}
 body.chat-full .pc-logo svg path{width:auto;height:auto}
 @media(prefers-reduced-motion:reduce){body.chat-full main.mid{animation:none}}
+
+/* ===== Okno „Wyślij w Pulse Connect” ===== */
+dialog.pc-pick{width:min(440px,calc(100vw - 20px));max-height:min(86dvh,740px);padding:0;margin:auto;border:1px solid color-mix(in srgb,var(--ac) 18%,var(--bd));border-radius:28px;background:var(--sf);color:var(--tx);box-shadow:0 30px 90px #000a;overflow:hidden;flex-direction:column}
+dialog.pc-pick[open]{display:flex;animation:pcpIn .3s cubic-bezier(.2,.9,.3,1.08) both}
+dialog.pc-pick::backdrop{background:rgba(5,8,18,.64);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+@keyframes pcpIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pcpSheet{from{transform:translateY(100%)}to{transform:none}}
+.pcp-grab{display:none;width:42px;height:4px;border-radius:9px;background:var(--bd);margin:9px auto 0}
+dialog.pc-pick .pc-pickh{padding:16px 16px 10px 18px;gap:10px}
+dialog.pc-pick .pc-pickh b{display:block;font:800 18px/1.2 Inter,system-ui,sans-serif;letter-spacing:-.02em}
+dialog.pc-pick .pc-pickh small{display:block;margin-top:3px;color:var(--mu);font-size:12px}
+.pcp-x{width:34px;height:34px;flex:none;border-radius:50%;background:var(--sf2);color:var(--tx)}
+.pcp-prev{position:relative;display:flex;align-items:center;gap:12px;margin:2px 16px 12px;padding:10px 12px 10px 16px;border-radius:18px;border:1px solid var(--bd);background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 9%,var(--sf2)),var(--sf2));overflow:hidden}
+.pcp-prev:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#3e91ff,#a78bfa,#ff5c8a)}
+.pcp-prev img{width:62px;height:62px;border-radius:12px;object-fit:cover;flex:none}
+.pcp-prev span{min-width:0}.pcp-prev b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;line-height:1.3}.pcp-prev small{display:block;margin-top:3px;color:var(--mu);font-size:11px}
+.pcp-tools{display:grid;gap:8px;padding:0 16px 8px}
+.pcp-tools input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:14px;padding:11px 14px;color:var(--tx);font-size:14px;outline:0;transition:border-color .2s,box-shadow .2s}
+.pcp-tools input:focus{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 14%,transparent)}
+.pcp-list{flex:1;min-height:110px;overflow:auto;padding:2px 10px 8px;display:grid;align-content:start;gap:2px;overscroll-behavior:contain}
+.pcp-row{display:flex;align-items:center;gap:12px;width:100%;padding:9px 10px;border-radius:16px;text-align:left;transition:background .15s}
+.pcp-row:hover{background:var(--sf2)}.pcp-row.on{background:color-mix(in srgb,var(--ac) 11%,transparent)}
+.pcp-av .chat-avatar{width:42px;height:42px}
+.pcp-nm{flex:1;min-width:0}.pcp-nm b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pcp-nm small{display:block;margin-top:2px;color:var(--mu);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcp-ck{width:26px;height:26px;flex:none;border-radius:50%;border:2px solid var(--bd);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:800;transition:background .2s,border-color .2s,transform .2s}
+.pcp-ck svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
+.pcp-row.on .pcp-ck{background:linear-gradient(135deg,#3e91ff,#a78bfa 60%,#ff5c8a);border-color:transparent;transform:scale(1.06)}.pcp-row.on .pcp-ck svg{opacity:1;transform:none}
+.pcp-row.busy .pcp-ck{background:none;border-color:var(--ac);transform:none}
+.pcp-row.ok .pcp-ck{background:#2fcf82;border-color:transparent;transform:none}.pcp-row.ok small{color:#35c982}
+.pcp-row.err .pcp-ck{background:#ef6666;border-color:transparent;transform:none}.pcp-row.err small{color:#ef7777;white-space:normal}
+.pcp-spin{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--ac) 28%,transparent);border-top-color:var(--ac);animation:pcpSp .7s linear infinite}
+.pcp-send .pcp-spin{border-color:rgba(255,255,255,.35);border-top-color:#fff;margin-right:8px;vertical-align:-2px}
+@keyframes pcpSp{to{transform:rotate(360deg)}}
+.pcp-foot{padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--bd);background:var(--sf)}
+.pcp-send{width:100%;padding:14px;border-radius:16px;font-weight:800;font-size:14px;color:#fff;background:linear-gradient(135deg,#3e91ff,#8b6cf6 55%,#ff5c8a);box-shadow:0 10px 24px -10px #8b6cf6;transition:opacity .2s,transform .15s,filter .2s,background .3s}
+.pcp-send:disabled{opacity:.42;box-shadow:none;filter:saturate(.6)}.pcp-send:not(:disabled):active{transform:scale(.98)}
+.pcp-send.done{background:#2fcf82;opacity:1;filter:none;box-shadow:0 10px 24px -12px #2fcf82}
+.pcp-empty{padding:26px 12px;text-align:center;color:var(--mu);font-size:13px}
+@media(max-width:700px){
+  dialog.pc-pick{width:100%;max-width:none;margin:auto 0 0;border-radius:28px 28px 0 0;max-height:90dvh}
+  dialog.pc-pick[open]{animation:pcpSheet .32s cubic-bezier(.2,.9,.3,1) both}
+  .pcp-grab{display:block}
+  .pcp-tools input{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){dialog.pc-pick[open]{animation:none}.pcp-spin{animation-duration:1.6s}}
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://hn.algolia.com"><link rel="preconnect" href="https://api.rss2json.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript></head><body><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="pcG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3e91ff"/><stop offset=".55" stop-color="#a78bfa"/><stop offset="1" stop-color="#ff5c8a"/></linearGradient></defs></svg>
 <div id="ptr"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></div><div id="mini" data-a="v" data-v="home" role="banner"></div><div class="app"><aside class="left" id="nav"></aside>
 <main class="mid"><div class="top"><div class="hr"><div class="ht"><h1 id="ttl"></h1><small id="sub" class="mu"></small></div><div class="hb"><button class="ib" data-a="so" aria-label="Szukaj"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg></button><button class="ib rf" data-a="ref" aria-label="Odśwież"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></button><button class="account-trigger guest" id="accountButton" data-a="v" data-v="account" aria-label="Konto">Zaloguj</button></div><div class="q2w" id="q2w"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q2" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"><button class="ib" data-a="sx" aria-label="Zamknij"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div class="tabs" id="tabs"></div></div><div id="xs" hidden><label class="xsb"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q3" type="search" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"></label></div><div id="feed"></div></main>
@@ -1144,13 +1189,28 @@ function chatView(){let h=chatViewBase();const me=currentUser();
  const ex='<button class="pc-exit" type="button" data-a="v" data-v="home" aria-label="Wróć do Pulse" title="Wróć do Pulse"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>';
  return h.includes('chat-side-head')?h.replace('<div class="chat-side-head">','<div class="chat-side-head">'+ex):ex.replace('class="pc-exit"','class="pc-exit pc-exit-float"')+h}
 function chatRefresh(){const me=currentUser(),box=$('#chatThreadList');if(!me||view!=='chat'||!box||(CHAT_ACTIVE&&!$('#chatMessages')))return draw();box.innerHTML=threadRows(me.id);const t=CHAT_DB.threads.find(x=>x.id===CHAT_ACTIVE),el=$('#pcTyping');if(t&&el){const on=pcTyping(t,me.id),m=$('#chatMessages'),near=m&&m.scrollHeight-m.scrollTop-m.clientHeight<90;el.classList.toggle('on',on);if(on&&near)m.scrollTop=m.scrollHeight;clearTimeout(PC.tt);if(on)PC.tt=setTimeout(chatRefresh,4600)}}
-async function pcSend({tid,text='',post=null,replyTo=null}){const me=currentUser(),t=CHAT_DB.threads.find(x=>x.id===tid&&x.members.includes(me?.id)),clean=String(text||'').trim().slice(0,4000);if(!me||!t||(!clean&&!post))return false;
+async function pcSend({tid,text='',post=null,replyTo=null,quiet=false}){const me=currentUser(),t=CHAT_DB.threads.find(x=>x.id===tid&&x.members.includes(me?.id)),clean=String(text||'').trim().slice(0,4000);if(!me||!t||(!clean&&!post))return false;
  try{const other=t.members.find(id=>id!==me.id),now=FB.api.serverTimestamp(),msg={senderId:me.id,text:clean,createdAt:now,readBy:[me.id]};if(post)msg.post=pcSrc(post);if(replyTo)msg.replyTo={id:String(replyTo.id),from:String(replyTo.from),text:String(replyTo.text||'').slice(0,90)};
-  await FB.api.addDoc(FB.api.collection(FB.db,'threads',t.id,'messages'),msg);await FB.api.updateDoc(FB.api.doc(FB.db,'threads',t.id),{lastMessageText:(post?'🔗 '+String(post.t||'Post'):clean).slice(0,200),lastMessageAt:now,lastSender:me.id,updatedAt:now,[`unreadCount.${other}`]:FB.api.increment(1),[`typing.${me.id}`]:0});return true}catch(e){toast('Nie udało się wysłać: '+friendlyFirebaseError(e));return false}}
+  await FB.api.addDoc(FB.api.collection(FB.db,'threads',t.id,'messages'),msg);await FB.api.updateDoc(FB.api.doc(FB.db,'threads',t.id),{lastMessageText:(post?'🔗 '+String(post.t||'Post'):clean).slice(0,200),lastMessageAt:now,lastSender:me.id,updatedAt:now,[`unreadCount.${other}`]:FB.api.increment(1),[`typing.${me.id}`]:0});return true}catch(e){PC.err=friendlyFirebaseError(e);if(!quiet)toast('Nie udało się wysłać: '+PC.err);return false}}
 async function sendChatMessage(v){$('.chat-send')?.classList.add('sending');const ok=await pcSend({tid:CHAT_ACTIVE,text:v,replyTo:PC.reply});if(ok){PC.reply=null;pcReplyBar();const i=$('#chatMessage');if(i&&i.value.trim()===String(v).trim()){i.value='';i.style.height='auto'}$('#chatEmojiPicker')?.setAttribute('hidden','')}$('.chat-send')?.classList.remove('sending');updateChatComposer()}
 function pcMsg(mid){const t=CHAT_DB.threads.find(x=>x.id===CHAT_ACTIVE);return{t,m:t?.messages?.find(x=>x.id===mid)}}
 function pcRerender(){const me=currentUser(),t=CHAT_DB.threads.find(x=>x.id===CHAT_ACTIVE),b=$('#chatMessages');if(!me||!t||!b)return;const near=b.scrollHeight-b.scrollTop-b.clientHeight<90;b.innerHTML=chatMessages(t,me.id);if(near)b.scrollTop=b.scrollHeight}
-function pcPick(id){const me=currentUser();if(!me){openAuth('login');return}const ts=CHAT_DB.threads.filter(t=>t.members.includes(me.id)).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));if(!ts.length){toast('Zacznij rozmowę w Pulse Connect, aby wysyłać posty');return}let d=$('#pcPick');if(!d){d=document.createElement('dialog');d.id='pcPick';d.className='pc-pick';document.body.append(d)}d.innerHTML=`<div class="pc-pickh"><b>Wyślij w Pulse Connect</b><button type="button" data-a="pc-x" aria-label="Zamknij">✕</button></div><div class="pc-pickl">${ts.map(t=>{const u=otherMember(t,me.id);return`<button data-a="pc-to" data-tid="${esc(t.id)}" data-id="${esc(id)}">${avatarMarkup(u)}<span>${esc(u?.displayName||'Użytkownik')}</span></button>`}).join('')}</div>`;d.showModal()}
+/* ===== Wysyłanie posta znajomym: nowe okno ===== */
+const PCP={post:null,sel:new Set(),q:'',busy:false,res:{},errs:{},loaded:false};
+function pcpFriends(){const me=currentUser();if(!me)return[];const seen=new Set(),out=[];CHAT_DB.threads.filter(t=>t.members.includes(me.id)).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(t=>{const u=otherMember(t,me.id);if(u&&!seen.has(u.id)){seen.add(u.id);out.push({u,has:true})}});AUTH_DB.users.forEach(u=>{if(u.id!==me.id&&!seen.has(u.id)){seen.add(u.id);out.push({u,has:false})}});return out}
+function pcpFoot(){const b=$('#pcpSend');if(!b)return;const n=PCP.sel.size;b.disabled=PCP.busy||!n;b.classList.remove('done');b.innerHTML=PCP.busy?'<i class="pcp-spin"></i>Wysyłanie…':n?`Wyślij do ${n} ${n===1?'osoby':'osób'}`:'Wybierz odbiorców'}
+function pcpList(){const box=$('#pcpList');if(!box)return;const q=PCP.q.trim().toLocaleLowerCase('pl'),L=pcpFriends().filter(({u})=>!q||`${u.displayName||''} ${u.username||''}`.toLocaleLowerCase('pl').includes(q));
+ box.innerHTML=L.length?L.map(({u,has})=>{const r=PCP.res[u.id]||'',on=PCP.sel.has(u.id),sub=r==='ok'?'Wysłano':r==='err'?esc(PCP.errs[u.id]||'Nie udało się wysłać'):r==='busy'?'Wysyłanie…':'@'+esc(u.username||'konto')+(has?' · rozmowa':' · nowa rozmowa');
+  return`<button type="button" class="pcp-row${on?' on':''}${r?' '+r:''}" data-a="pc-tog" data-uid="${esc(u.id)}" role="checkbox" aria-checked="${on}"><span class="pcp-av">${avatarMarkup(u)}</span><span class="pcp-nm"><b>${esc(u.displayName||'Użytkownik')}</b><small>${sub}</small></span><span class="pcp-ck">${r==='busy'?'<i class="pcp-spin"></i>':r==='ok'?'✓':r==='err'?'!':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'}</span></button>`}).join(''):`<div class="pcp-empty">${AUTH_DB.users.length<=1&&!PCP.q?'Nie ma jeszcze innych użytkowników Pulse.':'Nie znaleziono takiej osoby.'}</div>`;pcpFoot()}
+async function pcPick(id){const me=currentUser();if(!me){openAuth('login');return}
+ const p=[...S.mine,...pool].find(x=>x.id===id)||SHM[id];if(!p||!/^https?:/.test(p.url||'')){toast('Tego posta nie można wysłać');return}
+ Object.assign(PCP,{post:p,sel:new Set(),q:'',busy:false,res:{},errs:{}});
+ let d=$('#pcPick');if(!d){d=document.createElement('dialog');d.id='pcPick';d.className='pc-pick';document.body.append(d);d.addEventListener('click',e=>{if(e.target===d&&!PCP.busy)d.close()})}
+ const img=/^https?:/.test(p.img||'')?`<img src="${esc(p.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:'';
+ d.innerHTML=`<div class="pcp-grab"></div><div class="pc-pickh"><div><b>Wyślij w Pulse Connect</b><small>Wybierz znajomych, którym chcesz wysłać ten post</small></div><button type="button" class="pcp-x" data-a="pc-x" aria-label="Zamknij">✕</button></div><div class="pcp-prev">${img}<span><b>${esc(p.t||'Post')}</b><small>${esc(p.dom||SRC[p.src]?.n||'')}</small></span></div><div class="pcp-tools"><input id="pcpSearch" type="search" placeholder="Szukaj znajomych" autocomplete="off" aria-label="Szukaj znajomych"><input id="pcpNote" maxlength="300" placeholder="Dodaj wiadomość (opcjonalnie)" autocomplete="off" aria-label="Wiadomość do posta"></div><div class="pcp-list" id="pcpList"></div><div class="pcp-foot"><button type="button" class="pcp-send" id="pcpSend" data-a="pc-sendto" disabled>Wybierz odbiorców</button></div>`;
+ if(!d.open)d.showModal();pcpList();
+ if(!PCP.loaded){PCP.loaded=true;await loadPeople();pcpList()}}
+document.addEventListener('input',e=>{if(e.target.id==='pcpSearch'){PCP.q=e.target.value;pcpList()}});
 async function pcAct(a,D){const me=currentUser();try{switch(a){
 case'pc-sel':{const el=D.mid&&document.querySelector(`.pc-m[data-mid="${CSS.escape(D.mid)}"]`);if(!el)break;const on=el.classList.contains('sel');document.querySelectorAll('.pc-m.sel').forEach(x=>x.classList.remove('sel'));if(!on)el.classList.add('sel');break}
 case'pc-react':{const{t,m}=pcMsg(D.mid);if(!m||!me)break;const had=m.reactions?.[me.id];m.reactions={...(m.reactions||{})};if(had===D.e)delete m.reactions[me.id];else m.reactions[me.id]=D.e;pcRerender();await FB.api.updateDoc(FB.api.doc(FB.db,'threads',t.id,'messages',m.id),{[`reactions.${me.id}`]:had===D.e?FB.api.deleteField():D.e});break}
@@ -1161,8 +1221,17 @@ case'pc-del':{const{t,m}=pcMsg(D.mid);if(!m||!me||m.from!==me.id||!confirm('Usun
 case'pc-jump':{const el=document.querySelector(`.pc-m[data-mid="${CSS.escape(D.mid||'')}"]`);if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400)}break}
 case'pc-like':pcSend({tid:CHAT_ACTIVE,text:'👍'});break;
 case'pc-post':pcPick(D.id);break;
-case'pc-x':$('#pcPick')?.close();break;
-case'pc-to':{const p=[...S.mine,...pool].find(x=>x.id===D.id);$('#pcPick')?.close();if(p&&await pcSend({tid:D.tid,post:p}))toast('Wysłano w Pulse Connect');break}
+case'pc-x':if(!PCP.busy)$('#pcPick')?.close();break;
+case'pc-tog':{if(PCP.busy)break;const u=D.uid;if(!u)break;const had=PCP.res[u];if(PCP.sel.has(u))PCP.sel.delete(u);else PCP.sel.add(u);delete PCP.res[u];if(had)pcpList();else{const r=document.querySelector(`.pcp-row[data-uid="${CSS.escape(u)}"]`);if(r){const on=PCP.sel.has(u);r.classList.toggle('on',on);r.setAttribute('aria-checked',on)}pcpFoot()}break}
+case'pc-sendto':{if(PCP.busy||!PCP.sel.size||!me)break;PCP.busy=true;const note=($('#pcpNote')?.value||'').trim(),ids=[...PCP.sel];let bad=0;ids.forEach(u=>PCP.res[u]='busy');pcpList();
+ for(const u of ids){try{let t=CHAT_DB.threads.find(x=>x.members.includes(u)&&x.members.includes(me.id));if(!t){t=await threadFor(me.id,u);if(!CHAT_DB.threads.some(x=>x.id===t.id))CHAT_DB.threads.unshift(t)}
+   const sent=await pcSend({tid:t.id,post:PCP.post,quiet:true});if(sent&&note)await pcSend({tid:t.id,text:note,quiet:true});
+   if(sent){PCP.res[u]='ok';PCP.sel.delete(u)}else{PCP.res[u]='err';PCP.errs[u]=PC.err||'Nie udało się wysłać';bad++}}
+  catch(e){PCP.res[u]='err';PCP.errs[u]=friendlyFirebaseError(e);bad++}
+  pcpList()}
+ PCP.busy=false;pcpFoot();
+ if(!bad){const b=$('#pcpSend');if(b){b.disabled=true;b.classList.add('done');b.textContent='✓ Wysłano'}toast('Wysłano w Pulse Connect');setTimeout(()=>{if(!PCP.busy)$('#pcPick')?.close()},1100)}
+ break}
 }}catch(e){toast('Nie udało się: '+friendlyFirebaseError(e))}}
 document.addEventListener('input',e=>{if(e.target.id!=='chatMessage'||!CHAT_ACTIVE||!FB.api||!AUTH_SESSION)return;const n=Date.now();if(n-PC.tl>2500&&e.target.value.trim()){PC.tl=n;FB.api.updateDoc(FB.api.doc(FB.db,'threads',CHAT_ACTIVE),{[`typing.${AUTH_SESSION}`]:n}).catch(()=>{})}});
 function act(a,el){const D=el?.dataset||{};if(a.startsWith('pc-')){pcAct(a,D);return}switch(a){
