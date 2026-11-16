@@ -632,45 +632,39 @@ body:has(.chat-wrap) .hb [data-a=so],body:has(.chat-wrap) .hb .rf,body:has(.acco
 .pc-pickh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 8px}.pc-pickl{display:grid;gap:2px;padding:6px 10px 14px;max-height:55vh;overflow:auto}.pc-pickl button{display:flex;align-items:center;gap:12px;padding:10px;border-radius:16px;text-align:left;font-weight:700}.pc-pickl button:hover{background:var(--sf2)}
 @media(prefers-reduced-motion:reduce){.pc-dots i{animation:none}}
 
-/* ===== FIX: Pulse Connect – bez niebieskiego tła, gradientowa ikona ===== */
-
-/* 1. usuń niebieskie tło (pill) z zakładki czatu na dolnym pasku */
-@media (max-width:700px){
-  #nav .nv[data-v="chat"],
-  #nav .nv[data-v="chat"].on{
-    background: none !important;
-    box-shadow: none !important;
-  }
-  #nav .nv[data-v="chat"]::before,
-  #nav .nv[data-v="chat"].on::before{
-    display: none !important;
-    content: none !important;
-    background: none !important;
-  }
+/* ===== Pulse Connect w pasku: sama gradientowa ikona, bez tła, ramek i kwadratów ===== */
+aside#nav .nv.nv-pulse-connect,
+aside#nav .nv.nv-pulse-connect:hover,
+aside#nav .nv.nv-pulse-connect:focus,
+aside#nav .nv.nv-pulse-connect:active,
+aside#nav .nv.nv-pulse-connect.on{
+  background:none!important;border:0!important;box-shadow:none!important;outline:0;
+  border-radius:0!important;color:var(--mu)!important;transform:none!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;overflow:visible!important;
 }
-
-/* 2. usuń „kwadrat” = wyłącz fill ścieżki ikony (tylko dla czatu) */
-#nav .nv[data-v="chat"] svg path,
-#nav .nv[data-v="chat"].on svg path{
-  fill: none !important;
+aside#nav .nv.nv-pulse-connect::before,
+aside#nav .nv.nv-pulse-connect.on::before{content:none!important;display:none!important;animation:none!important;background:none!important;border:0!important}
+aside#nav .nv.nv-pulse-connect:active{transform:scale(.9)!important}
+aside#nav .nv.nv-pulse-connect svg.pulse-connect-mark{
+  width:27px;height:27px;fill:none!important;stroke:url(#pcGrad)!important;stroke-width:1.9;
+  filter:drop-shadow(0 3px 8px rgba(167,139,250,.45));
+  transition:transform .3s cubic-bezier(.3,1.6,.5,1),filter .3s;
 }
-
-/* 3. gradientowy obrys ikony */
-#nav .nv[data-v="chat"] svg,
-#nav .nv[data-v="chat"].on svg{
-  stroke: #a78bfa;                 /* fallback */
-  stroke: url(#pulseGrad) !important;
+aside#nav .nv.nv-pulse-connect svg.pulse-connect-mark path{fill:none!important;stroke:url(#pcGrad)!important}
+aside#nav .nv.nv-pulse-connect:hover svg.pulse-connect-mark{transform:scale(1.08)}
+aside#nav .nv.nv-pulse-connect.on svg.pulse-connect-mark{transform:scale(1.12);filter:drop-shadow(0 4px 12px rgba(255,92,138,.5))}
+aside#nav .nv.nv-pulse-connect.on span{
+  background:linear-gradient(135deg,#3e91ff 0%,#a78bfa 55%,#ff5c8a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;
 }
-
-/* 4. gradientowa etykieta aktywnej zakładki */
-@media (max-width:700px){
-  #nav .nv[data-v="chat"].on span{
-    background: linear-gradient(135deg,#3e91ff 0%,#a78bfa 55%,#ff5c8a 100%);
-    -webkit-background-clip: text;
-            background-clip: text;
-    color: transparent !important;
-    -webkit-text-fill-color: transparent;
-  }
+@media(max-width:700px){
+  aside#nav .nv.nv-pulse-connect{width:100%!important;min-width:0!important;height:52px!important;margin:0!important;justify-self:stretch!important}
+  aside#nav .nv.nv-pulse-connect svg.pulse-connect-mark{width:31px;height:31px}
+  aside#nav .nv.nv-pulse-connect span{display:none!important}
+  /* naprawa: etykiety aktywnych zakładek były ucinane w wąskich kolumnach – teraz ikona nad podpisem */
+  aside#nav .nv:not(.nv-pulse-connect){flex-direction:column!important;gap:3px!important;overflow:visible!important}
+  aside#nav .nv:not(.nv-pulse-connect) span{max-width:none!important;opacity:1!important;margin:0!important;font-size:10px!important;font-weight:600;overflow:visible!important}
+  aside#nav .nv.on:not(.nv-pulse-connect) span{font-weight:700}
 }
 
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://hn.algolia.com"><link rel="preconnect" href="https://api.rss2json.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript></head><body>
@@ -702,35 +696,7 @@ body:has(.chat-wrap) .hb [data-a=so],body:has(.chat-wrap) .hb .rf,body:has(.acco
  </div>
 </dialog>
 <script>
-(function(){
-  function injectPulseGrad(){
-    var svg = document.querySelector('#nav .nv[data-v="chat"] svg');
-    if(!svg) return false;
-    if(svg.querySelector('#pulseGrad')) return true;
-    var ns = 'http://www.w3.org/2000/svg';
-    var defs = document.createElementNS(ns, 'defs');
-    var grad = document.createElementNS(ns, 'linearGradient');
-    grad.setAttribute('id','pulseGrad');
-    grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
-    grad.setAttribute('x2','1'); grad.setAttribute('y2','1');
-    [['0%','#3e91ff'],['55%','#a78bfa'],['100%','#ff5c8a']].forEach(function(s){
-      var st = document.createElementNS(ns, 'stop');
-      st.setAttribute('offset', s[0]);
-      st.setAttribute('stop-color', s[1]);
-      grad.appendChild(st);
-    });
-    defs.appendChild(grad);
-    svg.insertBefore(defs, svg.firstChild);
-    return true;
-  }
-  if(!injectPulseGrad()){
-    var tries = 0, t = setInterval(function(){
-      if(injectPulseGrad() || ++tries > 40) clearInterval(t);
-    }, 100);
-  }
-})();
-
-const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let S={like:{},rt:{},bm:{},int:{},rep:{},mine:[],theme:'',cache:null};
 try{Object.assign(S,JSON.parse(localStorage.getItem('pulse2')||'{}'))}catch(e){}try{const c=JSON.parse(localStorage.getItem('pulse2c')||'null');if(c)S.cache=c}catch(e){}
 const sv=()=>{try{const{cache,...r}=S;localStorage.setItem('pulse2',JSON.stringify(r))}catch(e){}},cacheOf=a=>({t:Date.now(),p:[...a].sort((x,y)=>y.at-x.at).slice(0,300)}),svc=()=>{try{localStorage.setItem('pulse2c',JSON.stringify(S.cache))}catch(e){}};
@@ -972,7 +938,7 @@ setInterval(()=>{const t=$('.fcs');if(!t||S.anim===false||Date.now()-PAUSE<9000|
 {let LY=0,tk=0;const b=document.body,nv=$('#nav');addEventListener('scroll',()=>{if(tk)return;tk=1;requestAnimationFrame(()=>{tk=0;const y=scrollY,d=y-LY;b.classList.toggle('sm',y>60);b.classList.toggle('sm2',y>90);if(Math.abs(d)>=10){if(innerWidth<=700)navAway(d>0&&y>220);LY=y}})},{passive:true})}
 function draw(){draw0();place();watch();countUp();const n=Object.values(S.bm).filter(Boolean).length,b=document.querySelector('#nav .nv[data-v=bm]');if(b)b.dataset.n=n||'';const me=currentUser(),un=me?totalUnread(me.id):0,cb=document.querySelector('#nav .nv[data-v=chat]');if(cb)cb.dataset.n=un?(un>99?'99+':un):'';if(view==='chat'&&CHAT_ACTIVE)requestAnimationFrame(()=>{const m=$('#chatMessages');if(m)m.scrollTop=m.scrollHeight;updateChatComposer()})}
 function draw0(){$('#xs').hidden=view!=='exp';if(view!=='exp'){document.body.classList.remove('sf');$('#xs').classList.remove('low')}if($('#q3').value!==q)$('#q3').value=q;animNow=ANIM;if(ANIM)LIM=30;ANIM=0;MX=Math.max(1,...pool.map(p=>p.e));
- $('#nav').innerHTML=''+`<div class="wm" data-a="v" data-v="home">${BRAND.replace('#lg','#lg2').replace('id="lg"','id="lg2"')}</div>`+NAV.map(n=>{const isChat=n[0]==='chat';return`<button class="nv ${view===n[0]?'on':''} ${isChat?'nv-pulse-connect':''}" data-a="v" data-v="${n[0]}" aria-label="${isChat?'Pulse Connect':n[2]}">${isChat?'<svg class="i pulse-connect-mark" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 3.2C8.15 3.2 3.4 7.25 3.4 12.35c0 1.92.68 3.7 1.88 5.12L4.45 22l4.9-1.78c1.4.57 2.98.88 4.65.88 5.85 0 10.6-3.9 10.6-8.75S19.85 3.2 14 3.2Z"/><path d="M7.7 12.55h3.05l1.55-3.25 2.55 6.15 1.55-3.05h3.9"/></svg>':ic(n[1])}<span>${isChat?'Pulse Connect':n[2]}</span></button>`}).join('');
+ $('#nav').innerHTML=''+`<div class="wm" data-a="v" data-v="home">${BRAND.replace('#lg','#lg2').replace('id="lg"','id="lg2"')}</div>`+NAV.map(n=>{const isChat=n[0]==='chat';return`<button class="nv ${view===n[0]?'on':''} ${isChat?'nv-pulse-connect':''}" data-a="v" data-v="${n[0]}" aria-label="${isChat?'Pulse Connect':n[2]}">${isChat?'<svg class="i pulse-connect-mark" viewBox="0 0 28 28" aria-hidden="true"><defs><linearGradient id="pcGrad" gradientUnits="userSpaceOnUse" x1="3" y1="3" x2="25" y2="25"><stop offset="0" stop-color="#3e91ff"/><stop offset=".55" stop-color="#a78bfa"/><stop offset="1" stop-color="#ff5c8a"/></linearGradient></defs><path d="M14 3.2C8.15 3.2 3.4 7.25 3.4 12.35c0 1.92.68 3.7 1.88 5.12L4.45 22l4.9-1.78c1.4.57 2.98.88 4.65.88 5.85 0 10.6-3.9 10.6-8.75S19.85 3.2 14 3.2Z"/><path d="M7.7 12.55h3.05l1.55-3.25 2.55 6.15 1.55-3.05h3.9"/></svg>':ic(n[1])}<span>${isChat?'Pulse Connect':n[2]}</span></button>`}).join('');
  $('.rf').classList.toggle('spin',busy);const me=currentUser();$('#sub').textContent=(view==='chat'||view==='account')?firebaseStatusText():busy?'Odświeżanie…':LASTLOAD?'Zaktualizowano '+ago(LASTLOAD)+(ago(LASTLOAD)==='teraz'?'':' temu')+' · '+ks().length+' źródeł':'';$('#ttl').innerHTML={home:BRAND,exp:'Eksploruj',bm:'Zakładki',set:'Ustawienia',chat:'Pulse Connect',account:'Profil'}[view];updateAccountButton();
  $('#tabs').innerHTML=view==='home'?[['fyp','Dla Ciebie'],['hot','Na czasie'],['new','Najnowsze']].map(t=>`<button class="${tab===t[0]?'on':''}" data-a="tab" data-t="${t[0]}">${t[1]}</button>`).join(''):'';
  const all=[...S.mine,...pool].filter(p=>!S.off?.[p.src]&&SRC[p.src]);let l=all.filter(p=>!S.hide?.[p.id]&&vis(p));if(view==='home'&&ft)l=l.filter(p=>p.tags.includes(ft));if(view==='home'&&fsrc)l=l.filter(p=>p.src===fsrc);
