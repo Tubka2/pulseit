@@ -631,6 +631,48 @@ body:has(.chat-wrap) .hb [data-a=so],body:has(.chat-wrap) .hb .rf,body:has(.acco
 .pc-pick{width:min(380px,92vw);padding:0;border:1px solid var(--bd);border-radius:24px;background:var(--sf);color:var(--tx)}.pc-pick::backdrop{background:#050812b8}
 .pc-pickh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 8px}.pc-pickl{display:grid;gap:2px;padding:6px 10px 14px;max-height:55vh;overflow:auto}.pc-pickl button{display:flex;align-items:center;gap:12px;padding:10px;border-radius:16px;text-align:left;font-weight:700}.pc-pickl button:hover{background:var(--sf2)}
 @media(prefers-reduced-motion:reduce){.pc-dots i{animation:none}}
+
+/* ===== FIX: Pulse Connect – bez niebieskiego tła, gradientowa ikona ===== */
+
+/* 1. usuń niebieskie tło (pill) z zakładki czatu na dolnym pasku */
+@media (max-width:700px){
+  #nav .nv[data-v="chat"],
+  #nav .nv[data-v="chat"].on{
+    background: none !important;
+    box-shadow: none !important;
+  }
+  #nav .nv[data-v="chat"]::before,
+  #nav .nv[data-v="chat"].on::before{
+    display: none !important;
+    content: none !important;
+    background: none !important;
+  }
+}
+
+/* 2. usuń „kwadrat” = wyłącz fill ścieżki ikony (tylko dla czatu) */
+#nav .nv[data-v="chat"] svg path,
+#nav .nv[data-v="chat"].on svg path{
+  fill: none !important;
+}
+
+/* 3. gradientowy obrys ikony */
+#nav .nv[data-v="chat"] svg,
+#nav .nv[data-v="chat"].on svg{
+  stroke: #a78bfa;                 /* fallback */
+  stroke: url(#pulseGrad) !important;
+}
+
+/* 4. gradientowa etykieta aktywnej zakładki */
+@media (max-width:700px){
+  #nav .nv[data-v="chat"].on span{
+    background: linear-gradient(135deg,#3e91ff 0%,#a78bfa 55%,#ff5c8a 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://hn.algolia.com"><link rel="preconnect" href="https://api.rss2json.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript></head><body>
 <div id="ptr"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></div><div id="mini" data-a="v" data-v="home" role="banner"></div><div class="app"><aside class="left" id="nav"></aside>
 <main class="mid"><div class="top"><div class="hr"><div class="ht"><h1 id="ttl"></h1><small id="sub" class="mu"></small></div><div class="hb"><button class="ib" data-a="so" aria-label="Szukaj"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg></button><button class="ib rf" data-a="ref" aria-label="Odśwież"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg></button><button class="account-trigger guest" id="accountButton" data-a="v" data-v="account" aria-label="Konto">Zaloguj</button></div><div class="q2w" id="q2w"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q2" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"><button class="ib" data-a="sx" aria-label="Zamknij"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div class="tabs" id="tabs"></div></div><div id="xs" hidden><label class="xsb"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg><input id="q3" type="search" placeholder="Szukaj w Pulse" aria-label="Szukaj" enterkeyhint="search" autocomplete="off"></label></div><div id="feed"></div></main>
@@ -660,6 +702,34 @@ body:has(.chat-wrap) .hb [data-a=so],body:has(.chat-wrap) .hb .rf,body:has(.acco
  </div>
 </dialog>
 <script>
+(function(){
+  function injectPulseGrad(){
+    var svg = document.querySelector('#nav .nv[data-v="chat"] svg');
+    if(!svg) return false;
+    if(svg.querySelector('#pulseGrad')) return true;
+    var ns = 'http://www.w3.org/2000/svg';
+    var defs = document.createElementNS(ns, 'defs');
+    var grad = document.createElementNS(ns, 'linearGradient');
+    grad.setAttribute('id','pulseGrad');
+    grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
+    grad.setAttribute('x2','1'); grad.setAttribute('y2','1');
+    [['0%','#3e91ff'],['55%','#a78bfa'],['100%','#ff5c8a']].forEach(function(s){
+      var st = document.createElementNS(ns, 'stop');
+      st.setAttribute('offset', s[0]);
+      st.setAttribute('stop-color', s[1]);
+      grad.appendChild(st);
+    });
+    defs.appendChild(grad);
+    svg.insertBefore(defs, svg.firstChild);
+    return true;
+  }
+  if(!injectPulseGrad()){
+    var tries = 0, t = setInterval(function(){
+      if(injectPulseGrad() || ++tries > 40) clearInterval(t);
+    }, 100);
+  }
+})();
+
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let S={like:{},rt:{},bm:{},int:{},rep:{},mine:[],theme:'',cache:null};
 try{Object.assign(S,JSON.parse(localStorage.getItem('pulse2')||'{}'))}catch(e){}try{const c=JSON.parse(localStorage.getItem('pulse2c')||'null');if(c)S.cache=c}catch(e){}
